@@ -1,0 +1,92 @@
+.ocean {
+  height: 5%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #015871;
+}
+
+.wave {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x;
+  position: absolute;
+  width: 6400px;
+  top: -198px;
+  left: 0;
+  height: 198px;
+  transform: translate(0, 0, 0);
+  animation: wave 7s ease infinite;
+}
+
+.wave:nth-of-type(2) {
+  top: -168px;
+  animation: swell 4s ease infinite;
+  opacity: 1;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+
+  0%,
+  100% {
+    transform: translate(0, -30px);
+  }
+
+  50% {
+    transform: translate(0, 5px);
+  }
+}
+
+button.btn {
+  width: 9rem;
+
+}
+
+.btngroup {
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.outerCircle {
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
+  border: solid 3px #007494;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.innerCircle {
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
+  border: solid 3px #007494;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.center {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: solid 3px #007494;
+  border-radius: 50%;
+  position: absolute;
+}

@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth scroll-pt-6 not-sr-only;
+  }
+
+  body {
+    @apply m-0 px-4 py-3 w-full h-full normal-nums break-normal antialiased text-base font-serif align-middle bg-slate-900 overflow-x-hidden;
+  }
+
+  p {
+    @apply text-justify;
+  }
+
+  button {
+    @apply block px-8 py-2 bg-cyan-600 text-white rounded-md
+  }
+}
+
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 5px rgba(17, 10, 10, 0.51);
+  }
+
+  .font-extrabold2 {
+    font-weight: 900;
+  }
+  .r-grad-slate {
+    background: #334155;
+    background: radial-gradient(at center bottom, #334155, #1E2A3B);
+  }
+
+  .div-center {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .text-1\.5xl {
+    font-size: 1.375rem
+      /* 22px */
+    ;
+    line-height: 1.875rem
+      /* 30px */
+    ;
+  }
+}
