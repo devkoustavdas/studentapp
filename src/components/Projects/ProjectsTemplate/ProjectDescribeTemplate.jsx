@@ -2,11 +2,20 @@ import PropTypes from 'prop-types';
 import React, { lazy, Suspense } from "react";
 import Share from "../../PageAccessories/Share";
 import Popup from "../../PageAccessories/Popup";
+import Meta from '../../PageAccessories/Meta';
 
 const ProjectDescribeTemplate = ({ title, date, tags, standard, link, describe, steps }) => {
+
+    const getKeyword = () => {
+        const keyword = tags.slice();
+        keyword.push(title, standard, "Projects", "Student App", "Team Zero");
+        return keyword;
+    }
+
   return (
 <div>
           <section className="bg-slate-800 rounded-lg px-5 py-3 pb-14">
+          <Meta title={title} description={describe} link={link} keyword={getKeyword()} />
               <div className="bg-purple-600 text-slate-200 rounded-lg px-4 py-1 text-sm float-right w-52 text-center">
                   {standard}
               </div>

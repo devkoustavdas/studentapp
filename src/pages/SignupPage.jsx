@@ -1,6 +1,8 @@
 import Popup from "../components/PageAccessories/Popup"
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../data/firebase";
 
 const SignupPage = () => {
     const [email, setEmail] = useState('');
@@ -55,12 +57,12 @@ const SignupPage = () => {
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Your email</label>
                                 <input type="email" value={email}
-                                    onChange={(e) => setEmail(e.target.value)} name="email" id="email" placeholder="name@company.com" required="true" />
+                                    onChange={(e) => setEmail(e.target.value)} name="email" id="email" placeholder="name@company.com" required />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium  text-white">Password</label>
                                 <input type="password" value={password}
-                                    onChange={(e) => setPassword(e.target.value)} name="password" id="password" placeholder="••••••••" required="true" />
+                                    onChange={(e) => setPassword(e.target.value)} name="password" id="password" placeholder="••••••••" required />
                             </div>
                             <div>
                                 <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-white">Confirm password</label>
