@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '@fontsource/barlow';
 import '@fontsource/courgette';
 import '@fontsource/source-sans-pro';
 import './App.css';
 
+import { auth } from './data/firebase';
 
-
+import Home from './pages/Home';
 import Breath from './pages/Breath';
 import Projects from './pages/Projects';
 import ErrorPage from './pages/ErrorPage';
@@ -23,12 +25,29 @@ import Worry from './components/MentalHealth/MentalHealthPages/Worry';
 import EssayGlobalPollution from './components/Projects/ProjectsList/EssayGlobalPollution';
 
 function App() {
-
+  const [uid, setUID] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  
+  useEffect(()=> {
+    auth.onAuthStateChanged(user=>{
+      if(user) {
+        setUID(user.uid)
+        setDisplayName(user.displayName)
+        setDisabled(true)
+      } else {
+        setDisplayName("")
+        setDisabled(false)
+        setUID("")
+      }
+    })
+  },[]);
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<LoginPage />} />
-        <Route path='/signup' element={<SignupPage />} />
+        <Route path='/' element={<Home uid={uid} displayName={displayName} />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/signup' element={<SignupPage disabled={disabled} />} />
 
         <Route path='/mentalhealth' element={<Breath />} />
         <Route path='/mentalhealth/anger' element={<Anger />} />

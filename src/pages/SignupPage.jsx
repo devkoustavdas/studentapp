@@ -1,45 +1,98 @@
 import Popup from "../components/PageAccessories/Popup"
 import { useState } from 'react';
-import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../data/firebase";
 
-const SignupPage = () => {
+const SignupPage = (disabled) => {
+
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
-    const [showEmailPopup, setEmailShowPopup] = useState(false);
-    const [showPasswordPopup, setshowPasswordPopup] = useState(false);
-    const [showTermsPopup, setShowTermsPopup] = useState(false);
+    const [name, setName] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMssge, setPopupMssge] = useState(['', '']);
+
     const [terms, setTerms] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-
-    const validateEverything = () => {
-
+    const validateEverything = (e) => {
+        e.preventDefault();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (emailRegex.test(email) != true || email == '') {
-            setEmailShowPopup(true);
+            setPopupMssge(["Invalid Email ID", "Please check if the email ID you typed is valid."]);
+            setShowPopup(true);
             setTimeout(() => {
-                setEmailShowPopup(false);
-            }, 3000);
+                setShowPopup(false);
+                setPopupMssge(['', '']);
+            }, 2000);
         }
         else {
             if (password !== confirmPassword || password == '' || confirmPassword == '') {
-                setshowPasswordPopup(true);
+                setPopupMssge(["Password Mismatch", "Please check if you have typed different password while confirming it or you have missed typing it."]);
+                setShowPopup(true);
                 setTimeout(() => {
-                    setshowPasswordPopup(false);
-                }, 3000);
+                    setShowPopup(false);
+                    setPopupMssge(['', '']);
+                }, 2000);
             }
             else {
                 if (!terms) {
-                    setShowTermsPopup(true);
+                    setPopupMssge(["Terms and Conditions not agreed", "Please accept the Terms and Conditions by clicking on the box."]);
+                    setShowPopup(true);
                     setTimeout(() => {
-                        setShowTermsPopup(false);
-                    }, 3000);
+                        setShowPopup(false);
+                        setPopupMssge(['', '']);
+                    }, 2000);
                 }
                 else {
-
+                    if (name == '') {
+                        setPopupMssge(["No name", "Please type your name."]);
+                        setShowPopup(true);
+                        setTimeout(() => {
+                            setShowPopup(false);
+                            setPopupMssge(['', '']);
+                        }, 2000);
+                    }
+                    else {
+                        if (password.length < 6) {
+                            setPopupMssge(["Password Short", "Passwords should be atleast 6 characters long."]);
+                            setShowPopup(true);
+                            setTimeout(() => {
+                                setShowPopup(false);
+                                setPopupMssge(['', '']);
+                            }, 2000);
+                        }
+                        else {
+                            createUserWithEmailAndPassword(auth, email, password)
+                                .then(async(res) => {
+                                    console.log(res);
+                                    setPopupMssge(["Account Registered", `Welcome ${name}. Email ID: ${email} registered successfully`]);
+                                    setShowPopup(true);
+                                    setTimeout(() => {
+                                        setShowPopup(false);
+                                        setPopupMssge(['', '']);
+                                    }, 2000);
+                                    const user = res.user;
+                                    await updateProfile(user, {
+                                        displayName: name,
+                                    });
+                                    navigate("/");
+                                })
+                                .catch((err) => {
+                                    if (err.code === 'auth/email-already-in-use') {
+                                        setPopupMssge(["Email Already In Use", "Please check if you have an account already signed in with this email ID."]);
+                                        setShowPopup(true);
+                                        setTimeout(() => {
+                                            setShowPopup(false);
+                                            setPopupMssge(['', '']);
+                                        }, 2000);
+                                    }
+                                });
+                        }
+                    }
                 }
             }
         }
@@ -54,6 +107,11 @@ const SignupPage = () => {
                             Create an account
                         </h1>
                         <div className="space-y-4 md:space-y-6">
+                            <div>
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Your Name</label>
+                                <input type="text" value={name}
+                                    onChange={(e) => setName(e.target.value)} name="name" id="name" placeholder="Koustav Das" required />
+                            </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Your email</label>
                                 <input type="email" value={email}
@@ -83,15 +141,13 @@ const SignupPage = () => {
                                 Sign up
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Already have an account? <Link to={"/"} className="font-bold text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
+                                Already have an account? <Link to={"/login"} className="font-bold text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            {showEmailPopup && <Popup alertTitle="Invalid Email ID" alertText="Please check if the email ID you typed is valid." />}
-            {showPasswordPopup && <Popup alertTitle="Password Mismatch" alertText="Please check if you have typed different password while confirming it or you have missed typing it." />}
-            {showTermsPopup && <Popup alertTitle="Terms and Conditions not agreed" alertText="Please accept the Terms and Conditions by clicking on the box." />}
+            {showPopup && <Popup alertTitle={popupMssge[0]} alertText={popupMssge[1]} />}
         </section>
     )
 }
