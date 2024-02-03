@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { lazy, Suspense } from "react";
 import Share from "../../PageAccessories/Share";
+import Popup from "../../PageAccessories/Popup";
 
 const ProjectDescribeTemplate = ({ title, date, tags, standard, link, describe, steps }) => {
   return (
@@ -43,7 +44,13 @@ const ProjectDescribeTemplate = ({ title, date, tags, standard, link, describe, 
                   </div>
               </div>
           </section>
-
+          <section className="bg-slate-800 rounded-lg px-5 py-3 pb-5 mt-5">
+              <div className='text-gray-300 ml-1 mb-2'>Submit your Project Link</div>
+              <div className='flex flex-col md:flex-row gap-3'>
+                  <input placeholder='Type the link to your project' className='block w-full md:w-10/12 rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' type="url" id="project_url" />
+                  <button type="submit" className='block px-8 py-2 bg-indigo-600 text-gray-100 rounded-md'>Submit</button>
+              </div>
+          </section>
 </div>
   )
 }
