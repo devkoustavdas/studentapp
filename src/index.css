@@ -18,6 +18,10 @@
   button {
     @apply block px-8 py-2 bg-indigo-600 text-gray-100 rounded-md;
   }
+
+  input {
+    @apply block w-full border sm:text-sm rounded-lg p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
+  }
 }
 
 

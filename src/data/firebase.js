@@ -1,10 +1,12 @@
-// Import the functions you need from the SDKs you need
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import {getAuth} from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyAG37XBUEQKNTQrOT63snGgsTXvznHLIdY",
     authDomain: "decode-studentapp.firebaseapp.com",
+    databaseURL: "https://decode-studentapp-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "decode-studentapp",
     storageBucket: "decode-studentapp.appspot.com",
     messagingSenderId: "899383550517",
@@ -12,6 +14,9 @@ const firebaseConfig = {
     measurementId: "G-DQ07NVJW6B"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth();
+
+export {app, auth};
+
