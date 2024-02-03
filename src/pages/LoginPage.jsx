@@ -1,12 +1,13 @@
 import Popup from "../components/PageAccessories/Popup"
 import { useState } from 'react';
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [password, setPassword] = useState('');
  
-    const validateEmail = () => {
+    const validateEverything = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if(emailRegex.test(email)!=true){
@@ -38,7 +39,7 @@ const LoginPage = () => {
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-              <form className="space-y-6" onSubmit={validateEmail}>
+              <form className="space-y-6" onSubmit={validateEverything}>
                   <div>
                       <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-400">
                           Email address
@@ -88,7 +89,11 @@ const LoginPage = () => {
                       </button>
                   </div>
               </form>
+                  <p className="mt-4 text-sm font-light text-gray-400">
+                      Haven't created an account yet? <Link to={"/signup"} className="font-bold hover:underline">Signup here</Link>
+                  </p>
           </div>
+
           {showPopup && <Popup alertTitle="Invalid" alertText="Check if the email ID is valid and both the passwords are same!" />}
           </div>
       </div>
